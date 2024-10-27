@@ -47,8 +47,8 @@ open class CDMarkdownCode: CDMarkdownCommonElement {
     }
 
     public init(font: CDFont? = CDFont(name: "Menlo-Regular", size: 12),
-                color: CDColor? = CDColor.codeTextRed(),
-                backgroundColor: CDColor? = CDColor.codeBackgroundRed(),
+                color: UIColor = UIColor(red: 0.90, green: 0.20, blue: 0.40, alpha: 1.0),
+                backgroundColor: UIColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0),
                 paragraphStyle: NSParagraphStyle? = nil,
                 underlineColor: CDColor? = nil,
                 underlineStyle: NSUnderlineStyle? = nil) {
