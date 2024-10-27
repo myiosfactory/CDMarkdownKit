@@ -74,7 +74,9 @@ open class CDMarkdownParser {
                 boldFont: CDFont? = nil,
                 italicFont: CDFont? = nil,
                 fontColor: CDColor = CDColor.black,
+                codeFontColor: UIColor = UIColor(red: 0.90, green: 0.20, blue: 0.40, alpha: 1.0),
                 backgroundColor: CDColor = CDColor.clear,
+                codeBackgroundColor: UIColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1.0),
                 paragraphStyle: NSParagraphStyle? = nil,
                 imageSize: CGSize? = nil,
                 automaticLinkDetectionEnabled: Bool = true,
@@ -124,8 +126,8 @@ open class CDMarkdownParser {
                                   backgroundColor: backgroundColor,
                                   paragraphStyle: paragraphStyle)
         code = CDMarkdownCode(font: font,
-                              color: fontColor,
-                              backgroundColor: backgroundColor,
+                              color: codeFontColor,
+                              backgroundColor: codeBackgroundColor,
                               paragraphStyle: paragraphStyle)
         syntax = CDMarkdownSyntax(font: font,
                                   color: fontColor,
