@@ -272,15 +272,20 @@ open class CDMarkdownLabel: UILabel {
         actionController.addAction(UIAlertAction(title: "Share...",
                                                  style: .default,
                                                  handler: { _ in
-                                                    let activityViewController = UIActivityViewController(activityItems: [url],
-                                                                                                          applicationActivities: [])
-                                                    if parentViewController != nil {
-                                                        activityViewController.dismiss(animated: true,
-                                                                                       completion: nil)
-                                                        parentViewController?.present(activityViewController,
-                                                                                      animated: true,
-                                                                                      completion: nil)
-                                                    }
+            let activityViewController = UIActivityViewController(activityItems: [url],
+                                                                  applicationActivities: [])
+            if parentViewController != nil {
+                activityViewController.dismiss(animated: true,
+                                               completion: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = parentViewController?.view
+                    popoverController.sourceRect = CGRect(x: (parentViewController?.view.bounds.midX ?? 0) - 1, y: parentViewController?.view.bounds.midY ?? 0 - 1, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                parentViewController?.present(activityViewController,
+                                              animated: true,
+                                              completion: nil)
+            }
         }))
 #endif
         actionController.addAction(UIAlertAction(title: "Cancel",
@@ -290,10 +295,8 @@ open class CDMarkdownLabel: UILabel {
         if parentViewController != nil {
             if let popoverController = actionController.popoverPresentationController {
                 popoverController.sourceView = parentViewController?.view
-                popoverController.sourceRect = CGRect(x: touch.x,
-                                                      y: touch.y,
-                                                      width: 0,
-                                                      height: 0)
+                popoverController.sourceRect = CGRect(x: (parentViewController?.view.bounds.midX ?? 0) - 1, y: parentViewController?.view.bounds.midY ?? 0 - 1, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
             }
             
             parentViewController?.present(actionController, animated: true, completion: nil)
