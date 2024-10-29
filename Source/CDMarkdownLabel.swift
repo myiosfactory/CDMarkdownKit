@@ -229,7 +229,7 @@ open class CDMarkdownLabel: UILabel {
 
     // MARK: - Private Methods
 
-    private func displayActionController(forUrl url: URL) {
+    private func displayActionController(forUrl url: URL, touch: CGPoint) {
         var parentViewController: UIViewController?
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
@@ -286,11 +286,17 @@ open class CDMarkdownLabel: UILabel {
         actionController.addAction(UIAlertAction(title: "Cancel",
                                                  style: .cancel,
                                                  handler: nil))
-
+        
         if parentViewController != nil {
-            parentViewController?.present(actionController,
-                                          animated: true,
-                                          completion: nil)
+            if let popoverController = actionController.popoverPresentationController {
+                popoverController.sourceView = parentViewController?.view
+                popoverController.sourceRect = CGRect(x: touch.x,
+                                                      y: touch.y,
+                                                      width: 0,
+                                                      height: 0)
+            }
+            
+            parentViewController?.present(actionController, animated: true, completion: nil)
         }
     }
 
@@ -312,7 +318,7 @@ open class CDMarkdownLabel: UILabel {
         case .ended:
             guard let selectedRange = self.selectedURLRange else { return avoidSuperCall }
 
-            self.displayActionController(forUrl: selectedRange.url)
+            self.displayActionController(forUrl: selectedRange.url, touch: location)
 
             let when = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: when) {
