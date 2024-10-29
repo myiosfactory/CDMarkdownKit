@@ -321,7 +321,10 @@ open class CDMarkdownLabel: UILabel {
         case .ended:
             guard let selectedRange = self.selectedURLRange else { return avoidSuperCall }
 
-            self.displayActionController(forUrl: selectedRange.url, touch: location)
+            //self.displayActionController(forUrl: selectedRange.url, touch: location)
+            if let delegate = self.delegate {
+                delegate.didSelect(selectedRange.url)
+            }
 
             let when = DispatchTime.now() + Double(Int64(0.25 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             DispatchQueue.main.asyncAfter(deadline: when) {
